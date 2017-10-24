@@ -9,6 +9,7 @@ export default {
     },
     name: 'TsDbHelper',
     globals: {
+        'mysql': 'mysql',
         'ts-db-helper': 'TsDbHelper',
         'rxjs/Observable': 'Rx',
         'rxjs/Observer': 'Rx',
@@ -21,8 +22,10 @@ export default {
         'rxjs/add/Observable/from': 'Rx.Observable.prototype',
         'rxjs/add/Observable/empty': 'Rx.Observable.prototype',
         'rxjs/add/Observable/concat': 'Rx.Observable.prototype',
+        'rxjs/add/Observable/combineLatest': 'Rx.Observable.prototype',
     },
     external: [
+        'mysql',
         'ts-db-helper',
         'rxjs/Observable',
         'rxjs/Observer',
@@ -34,7 +37,8 @@ export default {
         'rxjs/add/operator/catch',
         'rxjs/add/Observable/from',
         'rxjs/add/Observable/empty',
-        'rxjs/add/Observable/concat'
+        'rxjs/add/Observable/concat',
+        'rxjs/add/Observable/combineLatest'
     ],
     plugins: [
         typescript({
