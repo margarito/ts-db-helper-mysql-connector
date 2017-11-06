@@ -1,5 +1,4 @@
 import { Create, DataModel, DbQuery, QueryError } from 'ts-db-helper';
-import { IPoolConfig } from 'mysql';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 
@@ -7,7 +6,7 @@ import 'rxjs/add/Observable/concat';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/Observable/combineLatest';
 
-export class PoolOptions implements IPoolConfig {
+export class PoolOptions {
     // db connection options
     public host = 'localhost';
     public port = 3306;

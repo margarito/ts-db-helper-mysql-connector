@@ -13,11 +13,11 @@ for (const field of fieldsToCopy) {
     distPackage[field] = package[field];
 }
 
-distPackage.peerDependencies = {
+distPackage.dependencies = {
     'rxjs': '^5.1.0',
     '@types/mysql': '0.0.34',
     'mysql': '^2.15.0',
-    'ts-db-helper': '0.0.4'
+    'ts-db-helper': '^0.0.6'
 };
 
 fs.writeFile(path.join(__dirname, 'dist', 'package.json'), JSON.stringify(distPackage, null, 4), (err) => {
