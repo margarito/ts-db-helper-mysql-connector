@@ -122,7 +122,7 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
     }
 
     public checkIfTableExists(tableName: string): Observable<boolean> {
-        return this.stdQuery('show tables like ' + tableName, []).map((results: any) => {
+        return this.stdQuery('show tables like ?', [tableName]).map((results: any) => {
             return !!results.length;
         });
     }
