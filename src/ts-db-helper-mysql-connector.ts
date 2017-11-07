@@ -11,7 +11,7 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
      * @private
      * @property {boolean} ready, flag updated with connector state to indicate that connector can query
      */
-    private ready = false;
+    private ready = true;
     /**
      * @private
      * @property {Database} dbValue @see Websql
