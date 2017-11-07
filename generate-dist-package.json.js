@@ -17,7 +17,7 @@ distPackage.dependencies = {
     'rxjs': '^5.1.0',
     '@types/mysql': '0.0.34',
     'mysql': '^2.15.0',
-    'ts-db-helper': '^0.0.6'
+    'ts-db-helper': '^0.0.7'
 };
 
 fs.writeFile(path.join(__dirname, 'dist', 'package.json'), JSON.stringify(distPackage, null, 4), (err) => {
