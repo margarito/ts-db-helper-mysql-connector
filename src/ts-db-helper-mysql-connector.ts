@@ -3,8 +3,20 @@ import { MysqlQueryResultWrapper } from './mysql-query-result-wrapper';
 import { TsDbHelperMySQLConnectorConfigurator } from './ts-db-helper-mysql-connector-configurator';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import { DataModel, DbQuery, ModelMigration, QueryConnector, QueryError, QueryResult, Select, ModelManager } from 'ts-db-helper';
+import {
+    Create,
+    DataModel,
+    DbQuery,
+    ModelManager,
+    ModelMigration,
+    QueryConnector,
+    QueryError,
+    QueryResult,
+    Select,
+} from 'ts-db-helper';
 import { createPool, IConnection, IError, IFieldInfo, IPool } from 'mysql';
+
+import 'rxjs/add/Observable/concat';
 
 export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration {
     /**
@@ -118,11 +130,21 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
 
     public changeVersion(oldVersion: string, newVersion: string): Observable<any> {
         const tableName = ModelManager.getInstance().getTable(TsDbHelperDatabaseInfo);
+        let changeVersionObsable = null;
         if (oldVersion === newVersion) {
-            return Observable.from([null]);
+            changeVersionObsable = Observable.from([null]);
         } else {
-            return this.stdQuery('INSERT INTO ' + tableName + ' (key, value) VALUES (version, ?) ON DUPLICATE KEY UPDATE value=?',
+            changeVersionObsable =
+                this.stdQuery('INSERT INTO ' + tableName + ' (`key`, `value`) VALUES (\'version\', ?) ON DUPLICATE KEY UPDATE `value`=?',
                 [newVersion, newVersion]);
+        }
+        if (oldVersion === null || oldVersion === undefined) {
+            const tableInfoModel = ModelManager.getInstance().getTable(TsDbHelperDatabaseInfo);
+            const q = Create(tableInfoModel).build();
+            const createObservable = this.stdQuery(q, []);
+            return Observable.concat(createObservable, changeVersionObsable);
+        } else {
+            return changeVersionObsable;
         }
     }
 
