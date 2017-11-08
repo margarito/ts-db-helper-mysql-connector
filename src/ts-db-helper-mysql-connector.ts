@@ -139,7 +139,7 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
                 [newVersion, newVersion]);
         }
         if (oldVersion === null || oldVersion === undefined) {
-            const tableInfoModel = ModelManager.getInstance().getTable(TsDbHelperDatabaseInfo);
+            const tableInfoModel = ModelManager.getInstance().getModel(TsDbHelperDatabaseInfo);
             const q = Create(tableInfoModel).build();
             const createObservable = this.stdQuery(q, []);
             return Observable.concat(createObservable, changeVersionObsable);
