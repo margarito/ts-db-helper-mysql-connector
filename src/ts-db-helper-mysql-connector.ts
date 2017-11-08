@@ -117,8 +117,12 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
 
     public changeVersion(oldVersion: string, newVersion: string): Observable<any> {
         const tableName = ModelManager.getInstance().getTable(TsDbHelperDatabaseInfo);
-        return this.stdQuery('INSERT INTO ' + tableName + '(key, value) VALUES (version, ?) ON DUPLICATE KEY UPDATE value=?',
-            [newVersion, newVersion]);
+        if (oldVersion === newVersion) {
+            return Observable.from([null]);
+        } else {
+            return this.stdQuery('INSERT INTO ' + tableName + '(key, value) VALUES (version, ?) ON DUPLICATE KEY UPDATE value=?',
+                [newVersion, newVersion]);
+        }
     }
 
     public checkIfTableExists(tableName: string): Observable<boolean> {
