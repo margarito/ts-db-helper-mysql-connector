@@ -106,6 +106,7 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
                 if (err) {
                     const qErr = new QueryError(err.message, err.sql ? err.sql : query, params.join(', '));
                     qErr.stack = err.stack;
+                    console.error(qErr);
                     observer.error(qErr);
                 } else {
                     observer.next(results);
@@ -120,7 +121,7 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
         if (oldVersion === newVersion) {
             return Observable.from([null]);
         } else {
-            return this.stdQuery('INSERT INTO ' + tableName + '(key, value) VALUES (version, ?) ON DUPLICATE KEY UPDATE value=?',
+            return this.stdQuery('INSERT INTO ' + tableName + ' (key, value) VALUES (version, ?) ON DUPLICATE KEY UPDATE value=?',
                 [newVersion, newVersion]);
         }
     }
