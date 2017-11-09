@@ -12,6 +12,6 @@ export function MySQLCreate(table: DbTable): string {
         value += (column.autoIncrement ? ' AUTO_INCREMENT' : '');
         columns.push(value);
     }
-    const query = 'CREATE TABLE IF NOT EXISTS ' + table.name + ' (`' + columns.join('`, `') + '`)';
+    const query = 'CREATE TABLE IF NOT EXISTS ' + table.name + ' (' + columns.join(', ') + ')';
     return query;
 }
