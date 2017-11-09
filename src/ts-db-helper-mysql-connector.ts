@@ -1,10 +1,10 @@
+import { MySQLCreate } from './mysql-create';
 import { TsDbHelperDatabaseInfo } from './ts-db-helper-database-info';
 import { MysqlQueryResultWrapper } from './mysql-query-result-wrapper';
 import { TsDbHelperMySQLConnectorConfigurator } from './ts-db-helper-mysql-connector-configurator';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import {
-    Create,
     DataModel,
     DbQuery,
     ModelManager,
@@ -140,7 +140,7 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
         }
         if (oldVersion === null || oldVersion === undefined) {
             const tableInfoModel = ModelManager.getInstance().getModel(TsDbHelperDatabaseInfo);
-            const q = Create(tableInfoModel).build();
+            const q = MySQLCreate(tableInfoModel);
             const createObservable = this.stdQuery(q, []);
             return Observable.concat(createObservable, changeVersionObsable);
         } else {
