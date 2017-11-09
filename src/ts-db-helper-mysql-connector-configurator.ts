@@ -1,4 +1,5 @@
-import { Create, DataModel, DbQuery, QueryError } from 'ts-db-helper';
+import { MySQLCreate } from './mysql-create';
+import { DataModel, DbQuery, QueryError } from 'ts-db-helper';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 
@@ -59,7 +60,7 @@ export class TsDbHelperMySQLConnectorConfigurator {
         const createObservable = connector.changeVersion(oldVersion, dataModel.version).switchMap((results: any) => {
             const observables = [];
             for (const table of dataModel.tables) {
-                dbQuery = Create(table).build();
+                dbQuery = MySQLCreate(table);
                 observables.push(connector.query(dbQuery));
                 console.log(dbQuery);
             }
