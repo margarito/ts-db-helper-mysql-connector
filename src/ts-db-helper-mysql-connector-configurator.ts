@@ -54,13 +54,11 @@ export class TsDbHelperMySQLConnectorConfigurator {
     }
 
     private createTables(dataModel: DataModel, connector: any, oldVersion: string | null, doDrop: boolean = false): Observable<any> {
-        let dbQuery: string;
-
         console.log(dataModel);
         const createObservable = connector.changeVersion(oldVersion, dataModel.version).switchMap((results: any) => {
             const observables = [];
             for (const table of dataModel.tables) {
-                dbQuery = MySQLCreate(table);
+                const dbQuery = MySQLCreate(table);
                 observables.push(connector.query(dbQuery));
                 console.log(dbQuery);
             }

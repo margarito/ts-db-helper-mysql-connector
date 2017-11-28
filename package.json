@@ -35,7 +35,7 @@
         "@types/mysql": "0.0.34",
         "mysql": "^2.15.0",
         "rxjs": "^5.1.0",
-        "ts-db-helper": "0.0.7"
+        "ts-db-helper": "0.0.11"
     },
     "devDependencies": {
         "copyfiles": "^1.2.0",

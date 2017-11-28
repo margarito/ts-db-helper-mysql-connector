@@ -30,6 +30,8 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
      */
     private connectionPoolValue: IPool;
 
+    public readonly supportRowid = false;
+
     /**
      * @private
      * @property {Database} db getter that open database on demand
@@ -67,10 +69,16 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
 
     }
 
-    public query(dbQuery: DbQuery): Observable<QueryResult<any>> {
-        return this.stdQuery(dbQuery.query, dbQuery.params).map((results: any) => {
-            return new MysqlQueryResultWrapper(results);
-        });
+    public query(dbQuery: DbQuery | string): Observable<QueryResult<any>> {
+        if (dbQuery instanceof DbQuery) {
+            return this.stdQuery(dbQuery.query, dbQuery.params).map((results: any) => {
+                return new MysqlQueryResultWrapper(results);
+            });
+        } else {
+            return this.stdQuery(dbQuery, []).map((results: any) => {
+                return new MysqlQueryResultWrapper(results);
+            });
+        }
     }
 
     /**
