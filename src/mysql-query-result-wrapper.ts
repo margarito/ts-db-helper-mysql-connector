@@ -14,20 +14,25 @@ export class MysqlQueryResultWrapper implements QueryResult<any> {
     /**
      * rows:    */
     public rows = {
-        get length(): number {
-            return this.results ? this.results.length : 0;
-        },
+        length: 0,
 
         item(index: number): any {
-            return this.results[index];
+            return null;
         },
 
         toArray(): any[] {
-            return this.results ? this.results : [];
+            return [];
         }
     };
 
     public constructor(results: any) {
         this.results = results;
+        this.rows.length = results.length;
+        this.rows.item = (index: number): any => {
+            return results[index];
+        };
+        this.rows.toArray = (): any[] => {
+            return results ? results : [];
+        };
     }
 }
