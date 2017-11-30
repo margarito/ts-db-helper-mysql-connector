@@ -1,5 +1,5 @@
 import { MySQLCreate } from './mysql-create';
-import { DataModel, DbQuery, QueryError } from 'ts-db-helper';
+import { DataModel, DbQuery, QueryError, QueryManager } from 'ts-db-helper';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 
@@ -54,13 +54,13 @@ export class TsDbHelperMySQLConnectorConfigurator {
     }
 
     private createTables(dataModel: DataModel, connector: any, oldVersion: string | null, doDrop: boolean = false): Observable<any> {
-        console.log(dataModel);
+        QueryManager.getInstance().logger.log(dataModel);
         const createObservable = connector.changeVersion(oldVersion, dataModel.version).switchMap((results: any) => {
             const observables = [];
             for (const table of dataModel.tables) {
                 const dbQuery = MySQLCreate(table);
                 observables.push(connector.query(dbQuery));
-                console.log(dbQuery);
+                QueryManager.getInstance().logger.log(dbQuery);
             }
             return Observable.combineLatest(observables);
         });

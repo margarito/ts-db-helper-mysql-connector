@@ -11,6 +11,7 @@ import {
     ModelMigration,
     QueryConnector,
     QueryError,
+    QueryManager,
     QueryResult,
     Select,
 } from 'ts-db-helper';
@@ -122,11 +123,12 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
 
     private stdQuery(query: string, params: any[] = []): Observable<any> {
         return Observable.create((observer: Observer<QueryResult<any>>) => {
+            QueryManager.getInstance().logger.debug(dbQuery);
             this.pool.query(query, params, (err: IError, results?: any, fields?: IFieldInfo[]) => {
                 if (err) {
                     const qErr = new QueryError(err.message, err.sql ? err.sql : query, params.join(', '));
                     qErr.stack = err.stack;
-                    console.error(qErr);
+                    QueryManager.getInstance().logger.error(qErr);
                     observer.error(qErr);
                 } else {
                     observer.next(results);
