@@ -123,7 +123,7 @@ export class TsDbHelperMySQLConnector implements QueryConnector, ModelMigration 
 
     private stdQuery(query: string, params: any[] = []): Observable<any> {
         return Observable.create((observer: Observer<QueryResult<any>>) => {
-            QueryManager.getInstance().logger.debug(dbQuery);
+            QueryManager.getInstance().logger.debug(query);
             this.pool.query(query, params, (err: IError, results?: any, fields?: IFieldInfo[]) => {
                 if (err) {
                     const qErr = new QueryError(err.message, err.sql ? err.sql : query, params.join(', '));
