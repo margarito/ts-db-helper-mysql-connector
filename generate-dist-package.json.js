@@ -13,12 +13,6 @@ for (const field of fieldsToCopy) {
     distPackage[field] = package[field];
 }
 
-distPackage.peerDependencies = {
-    'ts-db-helper': '^0.0.14'
-};
-
-delete distPackage.dependencies['ts-db-helper'];
-
 fs.writeFile(path.join(__dirname, 'dist', 'package.json'), JSON.stringify(distPackage, null, 4), (err) => {
     if (err) throw err;
     console.log('>>>> dist package.jon generated.');
